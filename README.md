@@ -2,7 +2,7 @@
 
 Finds the 5 job postings that best match a resume.
 Jobs come from the JSearch API (RapidAPI) and are stored locally in SQLite.
-Matching uses TF-IDF + cosine similarity and runs entirely on your computer.
+runs entirely on your computer.
 
 ## Setup
 
