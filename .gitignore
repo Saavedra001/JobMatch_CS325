@@ -1,0 +1,23 @@
+# Secrets - never commit
+.env
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+env/
+
+# Local data (rebuilt by running collect)
+*.db
+*.sqlite3
+
+# Personal data - never commit real resumes or results
+resumes/
+results.csv
+
+# Editor / OS junk
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
