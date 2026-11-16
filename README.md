@@ -1,4 +1,4 @@
-#Job Matcher (CS325 Project 1B)
+##Job Matcher (CS325 Project 1B)
 
 Finds the 5 job postings that best match a resume.
 Jobs come from the JSearch API (RapidAPI) and are stored locally in SQLite.
