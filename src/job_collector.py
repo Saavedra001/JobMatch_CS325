@@ -13,6 +13,7 @@ from resume_reader import clean_text, extract_text, find_resume
 URL = "https://jsearch.p.rapidapi.com/search-v2"
 HOST = "jsearch.p.rapidapi.com"
 MAX_PAGES = 5
+DEFAULT_PAGES = 3
 
 # role: skill keywords (ties go to the first role)
 ROLES = {
@@ -62,7 +63,7 @@ def build_query(resume_path):
     return f"{level}{pick_role(text)} jobs in {find_state(raw)}"
 
 
-def fetch_jobs(query, pages=1):
+def fetch_jobs(query, pages=DEFAULT_PAGES):
     """Call JSearch once and return the raw job list. Each page = 1 request credit."""
     load_dotenv()
     key = os.getenv("RAPIDAPI_KEY")
@@ -102,7 +103,7 @@ def clean_jobs(raw_jobs, query):
     return jobs
 
 
-def collect(resume_path, pages=1, refresh=False):
+def collect(resume_path, pages=DEFAULT_PAGES, refresh=False):
     """Get jobs for the resume. Skips the API if jobs for this search are already saved (unless refresh)."""
     query = build_query(resume_path)
     print(f"Search: {query}")
@@ -126,7 +127,7 @@ if __name__ == "__main__":
         print("Usage: python src/job_collector.py [pages 1-5]")
         sys.exit(1)
     try:
-        pages = int(sys.argv[1]) if len(sys.argv) == 2 else 1
+        pages = int(sys.argv[1]) if len(sys.argv) == 2 else DEFAULT_PAGES
         collect(find_resume(), pages)
     except (FileNotFoundError, ValueError, requests.RequestException) as e:
         print(f"Error: {e}")

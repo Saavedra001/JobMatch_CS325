@@ -7,7 +7,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent / "src"))
 
 import requests
 
-from job_collector import build_query, collect
+from job_collector import DEFAULT_PAGES, MAX_PAGES, build_query, collect
 from job_database import load_jobs, saved_query
 from matcher import match_jobs
 from results_display import save_results, show_results
@@ -31,8 +31,9 @@ def main():
     parser = argparse.ArgumentParser(description="Find the jobs that best match your resume (put it in resumes/).")
     commands = parser.add_subparsers(dest="command", required=True)
     collect_cmd = commands.add_parser("collect", help="get jobs for your resume from JSearch (uses API credits)")
-    collect_cmd.add_argument("pages", nargs="?", type=int, default=1, choices=range(1, 6), metavar="pages",
-                             help="pages to get, 1-5 (each page = up to 10 jobs = 1 credit). Default: 1")
+    collect_cmd.add_argument("pages", nargs="?", type=int, default=DEFAULT_PAGES, choices=range(1, MAX_PAGES + 1),
+                             metavar="pages",
+                             help=f"pages to get, 1-{MAX_PAGES} (each page = up to 10 jobs = 1 credit). Default: {DEFAULT_PAGES}")
     collect_cmd.add_argument("--refresh", action="store_true",
                              help="replace the saved jobs for this resume with new ones (uses credits)")
     match_cmd = commands.add_parser("match", help="show your top 5 job matches and save all ranked jobs to results.csv (no API calls)")

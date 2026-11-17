@@ -19,9 +19,9 @@ Tip: copy `data/jobs.db` from your other computer to skip collecting again (save
 
 ## Commands
 
-    python main.py collect               # get jobs for your resume (1 page = up to 10 jobs = 1 API credit)
-    python main.py collect 3             # get 3 pages (up to 30 jobs, 3 credits)
-    python main.py collect 3 --refresh   # replace your saved jobs with new ones
+    python main.py collect               # get jobs for your resume (default: 3 pages = up to 30 jobs = 3 API credits)
+    python main.py collect 5             # pick 1-5 pages (1 page = up to 10 jobs = 1 credit, max 5)
+    python main.py collect 5 --refresh   # replace your saved jobs with new ones
     python main.py match                 # show your top 5, save all ranked jobs to results.csv (free)
     python main.py match --all           # show every saved job, best first (free)
     python main.py -h                    # help
@@ -49,7 +49,7 @@ Jobs data provided by JSearch (OpenWeb Ninja) via RapidAPI.
 ## Example output
 
 ```text
-$ python main.py collect
+$ python main.py collect 1
 Search: entry level software developer jobs in IL
 Got 10 jobs, saved 10 to data/jobs.db (0 duplicates skipped)
 
