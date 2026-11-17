@@ -32,8 +32,10 @@ def show_results(jobs):
             print("   " + " | ".join(details))
         if job.get("skills"):
             print(f"   Matched skills: {', '.join(job['skills'])}")
+        # link, with the site it was posted on (e.g. "Apply on LinkedIn: https://...")
         if job["link"] != "n/a":
-            print(f"   {job['link']}")
+            source = job.get("source", "n/a")
+            print(f"   Apply on {source}: {job['link']}" if source != "n/a" else f"   {job['link']}")
         print()
 
     print("Jobs data provided by JSearch")
@@ -45,10 +47,11 @@ def save_results(jobs):
         # utf-8-sig so Excel shows special characters correctly
         with open(RESULTS_PATH, "w", newline="", encoding="utf-8-sig") as file:
             writer = csv.writer(file)
-            writer.writerow(["rank", "title", "company", "location", "job type", "posted", "matched skills", "link"])
+            writer.writerow(["rank", "title", "company", "location", "job type", "posted", "matched skills",
+                             "source", "link"])
             for i, job in enumerate(jobs, 1):
                 row = [job["title"], job["company"], job["location"], job["job_type"], job["posted"],
-                       ", ".join(job.get("skills", [])), job["link"]]
+                       ", ".join(job.get("skills", [])), job.get("source", "n/a"), job["link"]]
                 writer.writerow([i] + [safe_cell(value) for value in row])
     except PermissionError:
         print(f"Could not save {RESULTS_PATH.name}. Is it open in Excel? Close it and run match again.")

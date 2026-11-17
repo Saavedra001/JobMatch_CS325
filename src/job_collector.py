@@ -93,6 +93,8 @@ def clean_jobs(raw_jobs, query):
             "company": job.get("employer_name") or "n/a",
             "description": " ".join(job["job_description"].split()),
             "link": job.get("job_apply_link") or "n/a",
+            # site it was posted on (e.g. LinkedIn, Indeed)
+            "source": job.get("job_publisher") or "n/a",
             "location": job.get("job_location") or "n/a",
             "job_type": job.get("job_employment_type") or "n/a",
             # date only (YYYY-MM-DD)
