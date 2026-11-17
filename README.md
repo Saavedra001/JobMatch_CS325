@@ -1,8 +1,8 @@
-# Resume-to-Job Matcher (CS325 Project 1B)
+## Job Matcher (CS325 Project 1B)
 
 Finds the 5 job postings that best match your resume.
-Jobs come from the JSearch API (RapidAPI) and are saved locally in SQLite.
-Matching runs on your computer. Your resume is never uploaded anywhere.
+Jobs come from the JSearch API and are stored locally in SQLite.
+Matching runs entirely on your computer. Your resume is never uploaded anywhere.
 
 ## Setup (once per computer)
 
