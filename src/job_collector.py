@@ -14,6 +14,8 @@ URL = "https://jsearch.p.rapidapi.com/search-v2"
 HOST = "jsearch.p.rapidapi.com"
 MAX_PAGES = 5
 DEFAULT_PAGES = 3
+# saved jobs older than this get a warning
+STALE_DAYS = 30
 
 # role: skill keywords (ties go to the first role)
 ROLES = {
@@ -73,6 +75,9 @@ def fetch_jobs(query, pages=DEFAULT_PAGES):
     # one request, up to MAX_PAGES pages
     headers = {"X-RapidAPI-Key": key, "X-RapidAPI-Host": HOST}
     params = {"query": query, "num_pages": max(1, min(pages, MAX_PAGES)), "country": "us"}
+    # only jobs posted in the last month: remove the # from the next line.
+    # Warning: this may return fewer jobs. Other choices: "week", "3days", "today".
+    # params["date_posted"] = "month"
     response = requests.get(URL, headers=headers, params=params, timeout=60)
 
     # show the API's own error message
@@ -99,10 +104,21 @@ def clean_jobs(raw_jobs, query):
             "job_type": job.get("job_employment_type") or "n/a",
             # date only (YYYY-MM-DD)
             "posted": (job.get("job_posted_at_datetime_utc") or "n/a")[:10],
-            # search that found it
+            # search that found it, and when
             "query": query,
+            "collected": date.today().isoformat(),
         })
     return jobs
+
+
+def stale_note(jobs):
+    """Warning if the saved jobs were collected more than STALE_DAYS ago (None if recent or unknown)."""
+    collected = jobs[0].get("collected") if jobs else None
+    if collected:
+        days = (date.today() - date.fromisoformat(collected)).days
+        if days > STALE_DAYS:
+            return f"Note: your saved jobs were collected {days} days ago and may be out of date."
+    return None
 
 
 def collect(resume_path, pages=DEFAULT_PAGES, refresh=False):
@@ -112,7 +128,11 @@ def collect(resume_path, pages=DEFAULT_PAGES, refresh=False):
 
     # same search already saved? use those (no API call)
     if saved_query() == query and not refresh:
-        print(f"Already have {len(load_jobs())} jobs for this search. No API call needed.")
+        saved = load_jobs()
+        print(f"Already have {len(saved)} jobs for this search. No API call needed.")
+        note = stale_note(saved)
+        if note:
+            print(note)
         print(f"To get new jobs instead, run: python main.py collect {pages} --refresh")
         return
 

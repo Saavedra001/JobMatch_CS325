@@ -13,7 +13,7 @@ def connect():
     conn.execute(
         "CREATE TABLE IF NOT EXISTS jobs ("
         "id TEXT PRIMARY KEY, title TEXT, company TEXT, description TEXT, link TEXT, "
-        "location TEXT, job_type TEXT, posted TEXT, query TEXT, source TEXT)"
+        "location TEXT, job_type TEXT, posted TEXT, query TEXT, source TEXT, collected TEXT)"
     )
     # same title + company + location = same job (posted on another site)
     conn.execute(
@@ -29,7 +29,7 @@ def save_jobs(jobs):
     # insert, skip duplicates
     cur = conn.executemany(
         "INSERT OR IGNORE INTO jobs VALUES "
-        "(:id, :title, :company, :description, :link, :location, :job_type, :posted, :query, :source)",
+        "(:id, :title, :company, :description, :link, :location, :job_type, :posted, :query, :source, :collected)",
         jobs,
     )
     conn.commit()

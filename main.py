@@ -7,7 +7,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent / "src"))
 
 import requests
 
-from job_collector import DEFAULT_PAGES, MAX_PAGES, build_query, collect
+from job_collector import DEFAULT_PAGES, MAX_PAGES, build_query, collect, stale_note
 from job_database import load_jobs, saved_query
 from matcher import match_jobs
 from results_display import save_results, show_results
@@ -24,6 +24,11 @@ def run_match(show_all=False):
     ranked = match_jobs(read_resume(path), jobs, top_n=len(jobs))
     show_results(ranked if show_all else ranked[:5])
     save_results(ranked)
+
+    # warn if the saved jobs are old
+    note = stale_note(jobs)
+    if note:
+        print(f"{note} To get newer jobs, run: python main.py collect --refresh")
 
 
 def main():
