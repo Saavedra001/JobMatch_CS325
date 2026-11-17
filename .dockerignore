@@ -1,0 +1,27 @@
+# Keep secrets and personal files OUT of the Docker image (Docker Hub images are public).
+# Note: unlike .gitignore, a pattern only matches the top folder unless it starts with **/
+
+# Secrets - the API key is given at run time with --env-file
+**/.env
+
+# Personal data - given at run time with -v (resumes/ and data/)
+resumes
+data
+**/*.db
+**/results.csv
+
+# Local test data and notes
+whatitreturn.txt
+CLAUDE.md
+
+# Git, Python cache, editor and OS files
+.git
+**/__pycache__
+**/*.pyc
+.venv
+venv
+env
+.vscode
+.idea
+**/.DS_Store
+**/Thumbs.db

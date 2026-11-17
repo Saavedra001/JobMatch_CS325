@@ -22,7 +22,7 @@ Tip: copy `data/jobs.db` from your other computer to skip collecting again (save
     python main.py collect               # get jobs for your resume (default: 3 pages = up to 30 jobs = 3 API credits)
     python main.py collect 5             # pick 1-5 pages (1 page = up to 10 jobs = 1 credit, max 5)
     python main.py collect 5 --refresh   # replace your saved jobs with new ones
-    python main.py match                 # show your top 5, save all ranked jobs to results.csv (free)
+    python main.py match                 # show your top 5, save all ranked jobs to data/results.csv (free)
     python main.py match --all           # show every saved job, best first (free)
     python main.py -h                    # help
 
@@ -33,10 +33,10 @@ On Mac/Linux, use `python3` instead of `python`.
 
 ## Start over (delete all collected jobs)
 
-Do this if you removed your resume or want a clean start. It deletes the saved jobs and `results.csv`:
+Do this if you removed your resume or want a clean start. It deletes the `data` folder (saved jobs and `results.csv`):
 
-    rm -f data/jobs.db results.csv                                        # Git Bash / Mac / Linux
-    Remove-Item data\jobs.db, results.csv -ErrorAction SilentlyContinue   # PowerShell
+    rm -rf data                                               # Git Bash / Mac / Linux
+    Remove-Item data -Recurse -ErrorAction SilentlyContinue   # PowerShell
 
 Then run `python main.py collect` again (uses API credits).
 
@@ -60,20 +60,23 @@ Your top 5 job matches:
 1. Entry Level Implementor/Application Developer
    EBE Technologies | East Moline, IL | Full-time | Posted 2026-11-10
    Matched skills: c#, sql, database
-   Apply on LinkedIn: https://www.linkedin.com/jobs/view/...
+   Source: LinkedIn
+   https://www.linkedin.com/jobs/view/...
 
 2. Entry Level Java/DevOps Developer - Remote
    SynergisticIT | Aurora, IL | Full-time
    Matched skills: python, sql, database, git, full stack
-   Apply on Monster: https://www.monster.com/job-openings/...
+   Source: Monster
+   https://www.monster.com/job-openings/...
 
 ...
 
 5. C++ Software Developer - New Grad
    Headlands Technologies LLC | Chicago, IL | Internship
    Matched skills: c++, algorithms, data structures
-   Apply on LinkedIn: https://www.linkedin.com/jobs/view/...
+   Source: LinkedIn
+   https://www.linkedin.com/jobs/view/...
 
 Jobs data provided by JSearch
-All 10 ranked jobs saved to results.csv
+All 10 ranked jobs saved to data/results.csv
 ```

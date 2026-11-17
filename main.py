@@ -15,7 +15,7 @@ from resume_reader import find_resume, read_resume
 
 
 def run_match(show_all=False):
-    """Rank all saved jobs for the resume, print the top 5 (or all), and save all of them to results.csv."""
+    """Rank all saved jobs for the resume, print the top 5 (or all), and save all of them to data/results.csv."""
     path = find_resume()
     # saved jobs must come from this resume's search
     if saved_query() != build_query(path):
@@ -41,7 +41,7 @@ def main():
                              help=f"pages to get, 1-{MAX_PAGES} (each page = up to 10 jobs = 1 credit). Default: {DEFAULT_PAGES}")
     collect_cmd.add_argument("--refresh", action="store_true",
                              help="replace the saved jobs for this resume with new ones (uses credits)")
-    match_cmd = commands.add_parser("match", help="show your top 5 job matches and save all ranked jobs to results.csv (no API calls)")
+    match_cmd = commands.add_parser("match", help="show your top 5 job matches and save all ranked jobs to data/results.csv (no API calls)")
     match_cmd.add_argument("--all", action="store_true", dest="show_all",
                            help="show every saved job, best first (default: top 5)")
     args = parser.parse_args()

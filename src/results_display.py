@@ -7,8 +7,8 @@ from job_database import load_jobs, saved_query
 from matcher import match_jobs
 from resume_reader import find_resume, read_resume
 
-# results.csv in the project folder
-RESULTS_PATH = Path(__file__).resolve().parent.parent / "results.csv"
+# results.csv in the data/ folder (next to jobs.db)
+RESULTS_PATH = Path(__file__).resolve().parent.parent / "data" / "results.csv"
 
 
 def show_results(jobs):
@@ -43,8 +43,10 @@ def show_results(jobs):
 
 
 def save_results(jobs):
-    """Save all ranked jobs to results.csv (overwritten each time)."""
+    """Save all ranked jobs to data/results.csv (overwritten each time)."""
+    name = f"{RESULTS_PATH.parent.name}/{RESULTS_PATH.name}"
     try:
+        RESULTS_PATH.parent.mkdir(parents=True, exist_ok=True)
         # utf-8-sig so Excel shows special characters correctly
         with open(RESULTS_PATH, "w", newline="", encoding="utf-8-sig") as file:
             writer = csv.writer(file)
@@ -55,9 +57,9 @@ def save_results(jobs):
                        ", ".join(job.get("skills", [])), job.get("source", "n/a"), job["link"]]
                 writer.writerow([i] + [safe_cell(value) for value in row])
     except PermissionError:
-        print(f"Could not save {RESULTS_PATH.name}. Is it open in Excel? Close it and run match again.")
+        print(f"Could not save {name}. Is it open in Excel? Close it and run match again.")
         return
-    print(f"All {len(jobs)} ranked jobs saved to {RESULTS_PATH.name}")
+    print(f"All {len(jobs)} ranked jobs saved to {name}")
 
 
 def safe_cell(value):
