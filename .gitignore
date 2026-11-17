@@ -12,6 +12,9 @@ env/
 *.db
 *.sqlite3
 
+# Saved API response used for offline testing
+whatitreturn.txt
+
 # Personal data - never commit real resumes or results
 resumes/
 results.csv

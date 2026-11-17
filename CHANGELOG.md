@@ -2,4 +2,4 @@
 
 | # | What changed | Why |
 |---|---|---|
-| 1 | Job source changed from Adzuna to JSearch (RapidAPI). | JSearch pulls listings from Google for Jobs (LinkedIn, Indeed, Glassdoor)
+| 1 | Job source changed from Adzuna to JSearch BY OpenWeb Ninja on RapidAi. | JSearch pulls listings from Google for Jobs (LinkedIn, Indeed, Glassdoor)
