@@ -32,10 +32,11 @@ def show_results(jobs):
             print("   " + " | ".join(details))
         if job.get("skills"):
             print(f"   Matched skills: {', '.join(job['skills'])}")
-        # link, with the site it was posted on (e.g. "Apply on LinkedIn: https://...")
+        # site it was posted on (e.g. LinkedIn), then the link on its own line
+        if job.get("source", "n/a") != "n/a":
+            print(f"   Source: {job['source']}")
         if job["link"] != "n/a":
-            source = job.get("source", "n/a")
-            print(f"   Apply on {source}: {job['link']}" if source != "n/a" else f"   {job['link']}")
+            print(f"   {job['link']}")
         print()
 
     print("Jobs data provided by JSearch")
