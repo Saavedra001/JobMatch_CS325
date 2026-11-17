@@ -31,3 +31,35 @@ Run `collect` once, then `match` as often as you like.
 On Mac/Linux, use `python3` instead of `python`.
 
 Jobs data provided by JSearch (OpenWeb Ninja) via RapidAPI.
+
+## Example output
+
+```text
+$ python main.py collect
+Search: entry level software developer jobs in IL
+Got 10 jobs, saved 10 to data/jobs.db (0 duplicates skipped)
+
+$ python main.py match
+
+Your top 5 job matches:
+
+1. Entry Level Implementor/Application Developer
+   EBE Technologies | East Moline, IL | Full-time | Posted 2026-11-10
+   Matched skills: c#, sql, database
+   https://www.linkedin.com/jobs/view/...
+
+2. Entry Level Java/DevOps Developer - Remote
+   SynergisticIT | Aurora, IL | Full-time
+   Matched skills: python, sql, database, git, full stack
+   https://www.monster.com/job-openings/...
+
+...
+
+5. C++ Software Developer - New Grad
+   Headlands Technologies LLC | Chicago, IL | Internship
+   Matched skills: c++, algorithms, data structures
+   https://www.linkedin.com/jobs/view/...
+
+Jobs data provided by JSearch
+All 10 ranked jobs saved to results.csv
+```
