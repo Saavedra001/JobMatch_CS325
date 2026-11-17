@@ -14,20 +14,20 @@ from results_display import save_results, show_results
 from resume_reader import find_resume, read_resume
 
 
-def run_match():
-    """Rank all saved jobs for the resume, print the top 5, and save all of them to results.csv."""
+def run_match(show_all=False):
+    """Rank all saved jobs for the resume, print the top 5 (or all), and save all of them to results.csv."""
     path = find_resume()
     # saved jobs must come from this resume's search
     if saved_query() != build_query(path):
         raise ValueError("No saved jobs for this resume yet. Run: python main.py collect")
     jobs = load_jobs()
     ranked = match_jobs(read_resume(path), jobs, top_n=len(jobs))
-    show_results(ranked[:5])
+    show_results(ranked if show_all else ranked[:5])
     save_results(ranked)
 
 
 def main():
-    # commands: collect [pages] [--refresh], match
+    # commands: collect [pages] [--refresh], match [--all]
     parser = argparse.ArgumentParser(description="Find the jobs that best match your resume (put it in resumes/).")
     commands = parser.add_subparsers(dest="command", required=True)
     collect_cmd = commands.add_parser("collect", help="get jobs for your resume from JSearch (uses API credits)")
@@ -35,14 +35,16 @@ def main():
                              help="pages to get, 1-5 (each page = up to 10 jobs = 1 credit). Default: 1")
     collect_cmd.add_argument("--refresh", action="store_true",
                              help="replace the saved jobs for this resume with new ones (uses credits)")
-    commands.add_parser("match", help="show your top 5 job matches and save all ranked jobs to results.csv (no API calls)")
+    match_cmd = commands.add_parser("match", help="show your top 5 job matches and save all ranked jobs to results.csv (no API calls)")
+    match_cmd.add_argument("--all", action="store_true", dest="show_all",
+                           help="show every saved job, best first (default: top 5)")
     args = parser.parse_args()
 
     try:
         if args.command == "collect":
             collect(find_resume(), args.pages, args.refresh)
         else:
-            run_match()
+            run_match(args.show_all)
     except (FileNotFoundError, ValueError, requests.RequestException) as e:
         print(f"Error: {e}")
         sys.exit(1)

@@ -23,12 +23,26 @@ Tip: copy `data/jobs.db` from your other computer to skip collecting again (save
     python main.py collect 3             # get 3 pages (up to 30 jobs, 3 credits)
     python main.py collect 3 --refresh   # replace your saved jobs with new ones
     python main.py match                 # show your top 5, save all ranked jobs to results.csv (free)
+    python main.py match --all           # show every saved job, best first (free)
     python main.py -h                    # help
 
 Run `collect` once, then `match` as often as you like.
 `collect` won't use credits again if jobs for your resume are already saved (use `--refresh` for new ones).
 
 On Mac/Linux, use `python3` instead of `python`.
+
+## Start over (delete all collected jobs)
+
+Do this if you removed your resume or want a clean start. It deletes the saved jobs and `results.csv`:
+
+    rm -f data/jobs.db results.csv                                        # Git Bash / Mac / Linux
+    Remove-Item data\jobs.db, results.csv -ErrorAction SilentlyContinue   # PowerShell
+
+Then run `python main.py collect` again (uses API credits).
+
+Added another resume? You don't need to delete anything. If `resumes/` has more than one resume, the program asks which one to use,
+and `collect` replaces the old jobs when the new resume needs a different search.
+If both resumes give the same search, the saved jobs are reused (add `--refresh` to get new ones).
 
 Jobs data provided by JSearch (OpenWeb Ninja) via RapidAPI.
 
